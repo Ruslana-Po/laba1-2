@@ -94,12 +94,7 @@ struct HashTab{
 
     ~HashTab() {
         for (int i = 0; i < sizeArr; i++) {
-            Item* current = tabl[i];
-            while (current) {
-                Item* temp = current;
-                current = current->next;
-                delete temp;
-            }
+            delete tabl[i];
         }
         delete[] tabl;
     }
@@ -116,11 +111,11 @@ struct HashTab{
     bool isFull() {
         int count = 0;
         for (int i = 0; i < sizeArr; i++) {
-            Item* current = tabl[i];
-            while (current) {
+            if(tabl[i]!=nullptr){
                 count++;
-                current = current->next;
             }
+
+
         }
         // Проверка на количество элементов
         return count >= sizeArr;
@@ -129,15 +124,14 @@ struct HashTab{
     //Добавление
      void AddHash(string key, string value){
         int index= Hash(key);
+
         //Наличие уже такого ключа
-        Item* current = tabl[index];
-        while(current){
-            if(current->key==key){
-                cout << "Ключ '" << key << "' уже существует. Значение не добавлено." << endl;
+
+            if(tabl[index] != nullptr && tabl[index]->key==key){
+                cout << "Ключ '" << tabl[index]->key<< "' уже существует. Значение не добавлено." << endl;
                 return;
-            }
-             current = current->next;
-        }
+    }
+
         //Проверка на есть ли место
         if (isFull()) {
             cout << "Хэш-таблица переполнена. Невозможно добавить новый элемент." << endl;
@@ -160,49 +154,32 @@ struct HashTab{
     }
     //Получение значения по ключу
     void KeyItem(string key){
-         for(int i=0; i<sizeArr;i++){
-        //Наличие такого ключа
-        Item* current = tabl[i];
-        while(current){
-            if(current->key==key){
-                cout << "key: "<<key<<" value: "<< current->value << endl;
-                return;
-            }
-             current = current->next;
-            }
-        }
+          int index= Hash(key);
+         if(tabl[index]->key==key){
+            cout << "key: "<<key<<" value: "<< tabl[index]->value << endl;
+            return;
+         }
         cout<<"Такого ключа нет."<<endl;
     }
 
     //удаление элемента по ключу
     void DelValue(string key){
-        for(int index=0; index<sizeArr;index++){
-        //Наличие такого ключа
-        Item* current = tabl[index];
-        while(current){
-            if(current->key==key){
-                cout << "key: "<<key<<" value: "<< current->value << endl;
-                delete tabl[index];
-                tabl[index]=nullptr;
-                return;
-            }
-             current = current->next;
-        }
-        }
+         int index= Hash(key);
+         if(tabl[index]->key==key){
+            delete tabl[index];
+            tabl[index]=nullptr;
+            return;
+         }
         cout<<"Такого ключа нет."<<endl;
     }
     //Вывод
     void Print() {
         for (int i = 0; i < sizeArr; i++) {
-            Item* current = tabl[i];
-            cout << "Index " << i << ": ";
-            while (current) {
-                cout << " key: " << current->key << " value: " << current->value;
-                current = current->next;
-            }
-            cout << endl;
+                cout << " key: " << tabl[i]->key << " value: " << tabl[i]->value;
+                cout<<endl;
+
         }
-         cout << endl;
+
     }
 };
 
