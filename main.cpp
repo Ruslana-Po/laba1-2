@@ -332,6 +332,7 @@ int main(int args, char** argv){
         cout<<"Неверное имя"<<endl;
         }
     }else if(comand[0]=='P'){
+    if(comand[1])
         if(nameStruct=="myarr"){
             WorkMasiv(comand,arr);
         }
@@ -355,7 +356,7 @@ int main(int args, char** argv){
          }
     }
 
-        if(element!="PRINT"){
+        if(element!="PRINT"&&element!="MREMOVE"&&element!="MRETURN"&&element!="TREMOVE"&&element!="TCHECK"&&element!="LRETURN"&&element!="DRETURN"&&element!="HRETURNVAL"){
         string fileStr;
         fileStr = InStrok(argv[2]);
         ofstream file;
